@@ -8,6 +8,7 @@ class SavesqlCommand(sublime_plugin.TextCommand):
         sql = self.view.substr(sublime.Region(0, self.view.size()))
         with open(filepath,"w", encoding="utf-8") as f:
             f.write(sql)
+        self.view.erase(edit, sublime.Region(0, self.view.size()))
 
 
 class SqlstartCommand(sublime_plugin.ApplicationCommand):
@@ -48,6 +49,7 @@ class SavesqlsCommand(sublime_plugin.WindowCommand):
                 else:
                     filepath = os.path.join(path, filename + "_" + view.name() + ".txt")
                     view.run_command("savesql", {"filepath": filepath})
+            self.window.run_command("close_window")
 
         views = self.window.views()
         settings = sublime.load_settings("SaveSqls.sublime-settings")
